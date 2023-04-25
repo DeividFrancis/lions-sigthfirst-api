@@ -87,6 +87,7 @@ async function update(req: Request, res: Response) {
 
     if (notaOlhoDireito >= 25 || notaOlhoEsquerdo >= 25 || notaTotal >= 45) {
       data.apresentaProblema = true;
+      data.notaOlhoTotal = notaTotal;
     }
   }
 

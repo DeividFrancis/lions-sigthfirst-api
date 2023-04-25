@@ -14,47 +14,47 @@ const situacoes: Situacao[] = [
   {
     id: PENDENTE,
     descricao: "Pendente",
-    cor: "#333",
+    cor: "#f2ad46",
   },
   {
     id: ENTREGAR,
     descricao: "Entregar",
-    cor: "#333",
+    cor: "#a358fd",
   },
   {
     id: OCULOS_NAO_RETIRADO,
     descricao: "Óculos não retirado",
-    cor: "#333",
+    cor: "#f34c24",
   },
   {
     id: EXAME_AGENDADO,
     descricao: "Exame agendado",
-    cor: "#333",
+    cor: "#0c3daa",
   },
   {
     id: ENTREGUE,
     descricao: "Entregue",
-    cor: "#333",
+    cor: "#00cf84",
   },
   {
     id: EXAME_REALIZADO,
     descricao: "Exame realizado",
-    cor: "#333",
+    cor: "##00cf84",
   },
   {
     id: ENC_RETIRAR_OCULOS,
     descricao: "Encaminhado para retirar óculos",
-    cor: "#333",
+    cor: "#f2ad46",
   },
   {
     id: OCULOS_RETIRADO,
     descricao: "Óculos retirado",
-    cor: "#333",
+    cor: "#00cf84",
   },
   {
     id: NAO_COMPARECEU,
     descricao: "Não compareceu",
-    cor: "#333",
+    cor: "#f34c24",
   },
 ];
 
