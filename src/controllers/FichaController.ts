@@ -1,12 +1,56 @@
-import { PrismaClient, Ficha } from "@prisma/client";
+import { Ficha } from "@prisma/client";
 import { Request, Response } from "express";
 import { z } from "zod";
-import { EXAME_REALIZADO } from "../constants/situacoes";
+import { EXAME_REALIZADO, PENDENTE } from "../constants/situacoes";
+import { prisma } from "~/configs/prisma";
+import { FichaXlsxHelper } from "~/helpers/FilchaXlsxHelper";
 
-const prisma = new PrismaClient();
+const fichaFindSchema = z.object({
+  escola: z.string().optional(),
+  aluno: z.string().optional(),
+  turma: z.string().optional(),
+  turno: z.string().optional(),
+  comissao: z.string().optional(),
+  situacao: z.object({ id: z.string() }).optional(),
+  especial: z.coerce.boolean().optional(),
+  apresentaProblema: z.boolean().optional(),
+  observacao: z.string().optional(),
+  exameRealizado: z.coerce.boolean().optional(),
+});
 
 async function findAll(req: Request, res: Response) {
-  const fichas = await prisma.ficha.findMany();
+  const {
+    escola,
+    aluno,
+    turma,
+    turno,
+    comissao,
+    situacao,
+    especial,
+    apresentaProblema,
+    exameRealizado,
+  } = fichaFindSchema.parse(req.query);
+
+  const fichas = await prisma.ficha.findMany({
+    include: {
+      situacao: true,
+    },
+    where: {
+      escola: {
+        contains: escola,
+      },
+      aluno: {
+        contains: aluno,
+      },
+      turma,
+      turno,
+      comissao,
+      situacao,
+      especial,
+      apresentaProblema,
+      exameRealizado,
+    },
+  });
   res.json({ data: fichas });
 }
 
@@ -41,8 +85,7 @@ async function update(req: Request, res: Response) {
   if (!!notaOlhoDireito && !!notaOlhoEsquerdo) {
     const notaTotal = notaOlhoDireito + notaOlhoEsquerdo;
 
-    // TODO: coloca a regra aqui
-    if (notaTotal > 20) {
+    if (notaOlhoDireito >= 25 || notaOlhoEsquerdo >= 25 || notaTotal >= 45) {
       data.apresentaProblema = true;
     }
   }
@@ -58,10 +101,32 @@ async function update(req: Request, res: Response) {
       ...data,
     },
   });
+
+  res.json({ message: "Dados atualizado com sucesso!" });
 }
 
 async function importXLS(req: Request, res: Response) {
-  res.json({ message: "OK" });
+  const file: any = req.files?.file;
+
+  const fichasXls = FichaXlsxHelper.read(file);
+  const fichaListPromises = fichasXls.map((f) =>
+    prisma.ficha.upsert({
+      where: { aluno_escola: { aluno: f.aluno, escola: f.escola } },
+      update: {
+        ...f,
+      },
+      create: {
+        ...f,
+        situacao: {
+          connect: { id: PENDENTE },
+        },
+      },
+    })
+  );
+
+  const resDB = await Promise.all(fichaListPromises);
+
+  res.json({ message: "OK", data: resDB });
 }
 
 export const FichaController = {

@@ -1,6 +1,5 @@
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "../src/configs/prisma";
 import { situacoes } from "../src/constants/situacoes";
-const prisma = new PrismaClient();
 
 async function main() {
   situacoes.forEach(async (situacao) => {

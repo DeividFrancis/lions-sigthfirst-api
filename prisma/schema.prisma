@@ -25,16 +25,18 @@ model Ficha {
   turno             String
   comissao          String
   aluno             String
-  notaOlhoDireito   Int
-  notaOlhoEsquerdo  Int
-  notaOlhoTotal     Int
+  notaOlhoDireito   Int?
+  notaOlhoEsquerdo  Int?
+  notaOlhoTotal     Int?
   situacao          Situacao @relation(fields: [situacaoId], references: [id])
-  especial          Boolean
-  observacao        String
-  apresentaProblema Boolean
-  exameRealizado    Boolean
+  especial          Boolean?
+  observacao        String?
+  apresentaProblema Boolean?
+  exameRealizado    Boolean?
 
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
   situacaoId String
+
+  @@unique([aluno, escola])
 }

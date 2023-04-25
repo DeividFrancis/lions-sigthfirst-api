@@ -1,5 +1,6 @@
 import { Situacao } from "@prisma/client";
 
+const PENDENTE = "clgwlidrl000008jlcmlsc3s3";
 const ENTREGAR = "CLGWA2AIK0004U41WFGZC1Q08";
 const OCULOS_NAO_RETIRADO = "CLGWA2AIK0002U41WB640A4M7";
 const EXAME_AGENDADO = "CLGWA2AIM0006U41WP68MX4ZF";
@@ -10,6 +11,11 @@ const OCULOS_RETIRADO = "CLGWA2AHW0000U41WOFEWOKNC";
 const NAO_COMPARECEU = "CLGWA2AJ1000EU41W3WCCKBRQ";
 
 const situacoes: Situacao[] = [
+  {
+    id: PENDENTE,
+    descricao: "Pendente",
+    cor: "#333",
+  },
   {
     id: ENTREGAR,
     descricao: "Entregar",
@@ -54,6 +60,7 @@ const situacoes: Situacao[] = [
 
 export {
   situacoes,
+  PENDENTE,
   ENTREGAR,
   OCULOS_NAO_RETIRADO,
   EXAME_AGENDADO,

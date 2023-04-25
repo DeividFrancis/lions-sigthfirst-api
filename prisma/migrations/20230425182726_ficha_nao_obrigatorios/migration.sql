@@ -1,0 +1,8 @@
+-- AlterTable
+ALTER TABLE "Ficha" ALTER COLUMN "notaOlhoDireito" DROP NOT NULL,
+ALTER COLUMN "notaOlhoEsquerdo" DROP NOT NULL,
+ALTER COLUMN "notaOlhoTotal" DROP NOT NULL,
+ALTER COLUMN "especial" DROP NOT NULL,
+ALTER COLUMN "observacao" DROP NOT NULL,
+ALTER COLUMN "apresentaProblema" DROP NOT NULL,
+ALTER COLUMN "exameRealizado" DROP NOT NULL;
